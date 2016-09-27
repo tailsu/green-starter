@@ -1,3 +1,4 @@
 node_modules/
 static/bundle.*
-static/*.svg
+static/*
+!static/index.html

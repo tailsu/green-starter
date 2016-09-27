@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import store from './state/store'
-import {Grid, Row, Col} from 'react-bootstrap'
+import {Grid, Row, Col, Button} from 'react-bootstrap'
 
 @store('funny')
 export default class App extends Component {
@@ -13,7 +13,7 @@ export default class App extends Component {
     render() {
         return <Grid>
             <Row><div>{this.props.funny || 'wot'}</div></Row>
-            <Row><button onClick={this.onClick}>Go!</button></Row>
+            <Row><Button onClick={this.onClick}>Go!</Button></Row>
         </Grid>
     }
 

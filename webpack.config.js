@@ -1,6 +1,7 @@
 "use strict";
 var webpack = require('webpack');
 var path = require('path');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var loaders = [
 	{
@@ -9,52 +10,42 @@ var loaders = [
 		loader: 'babel',
 	},
 	{
-		test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-		exclude: /(node_modules|bower_components)/,
+		test: /\.eot(\?.*)?$/,
 		loader: "file"
 	},
 	{
-		test: /\.(woff|woff2)$/,
-		exclude: /(node_modules|bower_components)/,
+		test: /\.(woff|woff2)(\?.*)?$/,
 		loader: "url?prefix=font/&limit=5000"
 	},
 	{
-		test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-		exclude: /(node_modules|bower_components)/,
+		test: /\.ttf(\?.*)?$/,
 		loader: "url?limit=10000&mimetype=application/octet-stream"
 	},
 	{
-		test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-		exclude: /(node_modules|bower_components)/,
+		test: /\.svg(\?.*)?$/,
 		loader: "url?limit=10000&mimetype=image/svg+xml"
 	},
 	{
-		test: /\.gif/,
-		exclude: /(node_modules|bower_components)/,
+		test: /\.gif(\?.*)?$/,
 		loader: "url-loader?limit=10000&mimetype=image/gif"
 	},
 	{
-		test: /\.jpg/,
-		exclude: /(node_modules|bower_components)/,
+		test: /\.jpg(\?.*)?$/,
 		loader: "url-loader?limit=10000&mimetype=image/jpg"
 	},
 	{
-		test: /\.png/,
-		exclude: /(node_modules|bower_components)/,
+		test: /\.png(\?.*)?$/,
 		loader: "url-loader?limit=10000&mimetype=image/png"
-	},
-	{
-		test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-		loader: 'url-loader?limit=100000'
 	},
 	{
 		test: /\.scss$/,
 		exclude: /node_modules/,
-		loaders: [
-			'style?sourceMap',
-			'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
-			'sass'
-		]
+		loader: ExtractTextPlugin.extract("style", 
+			[
+				'css',
+				'sass',
+				'sass-resources'
+			])
 	}
 ];
 
@@ -63,7 +54,7 @@ const PORT = process.env.PORT || "8888";
 
 module.exports = {
 	entry: [
-		'bootstrap-loader',
+		'bootstrap-loader/extractStyles',
 		`webpack-dev-server/client?http://${HOST}:${PORT}`,
 		'webpack/hot/dev-server',
 		'./app/main.jsx'
@@ -82,6 +73,10 @@ module.exports = {
     	],
 		loaders
 	},
+	plugins: [
+		new webpack.HotModuleReplacementPlugin(),
+		new ExtractTextPlugin("styles.css")
+	],
 	devServer: {
 		contentBase: "./static",
 		hot: true,
@@ -89,7 +84,9 @@ module.exports = {
 		port: PORT,
 		host: HOST
 	},
-	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
+	sassResources: [
+		path.join(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins/*.scss'),
+		path.join(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss'),
+		path.join(__dirname, 'app/style/_variables.scss'),
 	]
 };
