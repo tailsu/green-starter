@@ -79,7 +79,7 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-		new ExtractTextPlugin("styles.css"),
+		new ExtractTextPlugin("[name].css"),
 		new webpack.optimize.CommonsChunkPlugin("common", "common.js"),
 		new webpack.ProvidePlugin({
 			$: 'jquery',

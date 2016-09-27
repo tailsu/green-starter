@@ -2,3 +2,4 @@ node_modules/
 static/bundle.*
 static/*
 !static/index.html
+*.log
