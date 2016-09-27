@@ -14,4 +14,4 @@ const routes =
         </Router>
     </Provider>
 
-ReactDOM.render(routes, document.getElementsByClassName('starter-react-root')[0]);
+ReactDOM.render(routes, document.getElementById('starter-react-root'));

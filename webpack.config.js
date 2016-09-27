@@ -2,6 +2,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var pkg = require('./package.json')
 
 var loaders = [
 	{
@@ -53,16 +54,19 @@ const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
 
 module.exports = {
-	entry: [
-		'bootstrap-loader/extractStyles',
-		`webpack-dev-server/client?http://${HOST}:${PORT}`,
-		'webpack/hot/dev-server',
-		'./app/main.jsx'
-	],
+	entry: {
+		common: Object.keys(pkg.dependencies),
+		vendor: [
+			'bootstrap-loader/extractStyles',
+			`webpack-dev-server/client?http://${HOST}:${PORT}`,
+			'webpack/hot/dev-server',
+		],
+		bundle: './app/main.jsx',
+	},
 	devtool: 'cheap-module-source-map',
 	output: {
 		path: path.join(__dirname, 'static'),
-		filename: 'bundle.js'
+		filename: '[name].js'
 	},
 	resolve: {
 		extensions: ['', '.js', '.jsx', '.css', '.scss']
@@ -75,7 +79,8 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-		new ExtractTextPlugin("styles.css")
+		new ExtractTextPlugin("styles.css"),
+		new webpack.optimize.CommonsChunkPlugin("common", "common.js"),
 	],
 	devServer: {
 		contentBase: "./static",
