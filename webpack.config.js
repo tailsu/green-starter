@@ -81,6 +81,11 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin(),
 		new ExtractTextPlugin("styles.css"),
 		new webpack.optimize.CommonsChunkPlugin("common", "common.js"),
+		new webpack.ProvidePlugin({
+			$: 'jquery',
+			jQuery: 'jquery',
+			_: 'lodash',
+		})
 	],
 	devServer: {
 		contentBase: "./static",
