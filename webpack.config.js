@@ -1,8 +1,12 @@
 "use strict";
+var _ = require('lodash');
 var webpack = require('webpack');
 var path = require('path');
+var glob = require('glob');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var pkg = require('./package.json')
+var pkg = require('./package.json');
+
+var diModules = _.mapValues(_.keyBy(glob.sync('app/**/*.jsx').map(p => ['$' + path.basename(p, '.jsx') + '$', path.join(__dirname, p)]), a => a[0]), a => a[1]);
 
 var loaders = [
 	{
@@ -70,7 +74,8 @@ module.exports = {
 		filename: '[name].js'
 	},
 	resolve: {
-		extensions: ['', '.js', '.jsx', '.css', '.scss']
+		extensions: ['', '.js', '.jsx', '.css', '.scss'],
+		alias: diModules,
 	},
 	module: {
 		preLoaders: [

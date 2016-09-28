@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import store from './state/store'
+import store from '$store'
 import {Grid, Row, Col, Button} from 'react-bootstrap'
 
 @store('funny')

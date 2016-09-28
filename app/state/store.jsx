@@ -2,7 +2,7 @@ import {createStore, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import {connect} from 'react-redux'
 import _ from 'lodash'
-import * as actions from './actions'
+import * as actions from '$actions'
 
 function inlineAction(state = {}, action) {
     if (action.type === 'INLINE_ACTION') {
