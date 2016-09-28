@@ -1,9 +1,10 @@
 {
   "presets": ["es2015", "stage-0", "react"],
   "plugins": [
-    "transform-runtime",
     "transform-decorators-legacy",
     "transform-class-properties",
-		"react-hot-loader/babel"
+    "syntax-async-functions",
+    "transform-regenerator",
+    "react-hot-loader/babel"
   ]
 }
