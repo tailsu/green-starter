@@ -41,4 +41,8 @@ export function pushDelete(collectionName, item) {
 
 export function clearUpdateQueue() {
     return inline('updateQueue', state => delete state.updateQueue);
-} 
+}
+
+export function setInline(name, value) {
+    return inline(name, state => state[name] = value);
+}

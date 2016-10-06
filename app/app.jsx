@@ -4,31 +4,29 @@ import uuid from 'node-uuid'
 import store from '$store'
 import {Grid, Row, Col, Button} from 'react-bootstrap'
 
-@store('funny')
+@store('foos')
 export default class App extends Component {
     constructor() {
         super();
     }
 
     render() {
+        if (!this.props.foos) {
+            return null;
+        }
         return <Grid>
-            <Row><div>{this.props.funny || 'wot'}</div></Row>
+            {this.props.foos.map(f => <Row key={f.id}><Button onClick={() => this.onDelete(f)}>{f.id}</Button></Row>)}
+            
             <Row><Button onClick={this.onAdd}>Add!</Button></Row>
-            <Row><Button onClick={this.onUpdate}>Update!</Button></Row>
-            <Row><Button onClick={this.onRemove}>Remove!</Button></Row>
         </Grid>
     }
 
     @bound
     onAdd() {
-        this.props.pushNew('foos', {id: 1, data: 'yes'});
+        this.props.pushNew('foos', {data: 'yes'});
     }
-    @bound
-    onUpdate() {
-        this.props.pushUpdate('foos', {id: 1, data: 'no', and: 1});
-    }
-    @bound
-    onRemove() {
-        this.props.pushDelete('foos', 1);
+
+    onDelete(f) {
+        this.props.pushDelete('foos', f.id);
     }
 }

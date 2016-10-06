@@ -1,7 +1,7 @@
 import horizonClient from '@horizon/client'
 import * as actions from './actions'
 
-let horizon = horizonClient({});
+let horizon;
 
 function promisesFromUpdates(promises, updates, collection, method) {
     if (!updates) {
@@ -26,4 +26,12 @@ export async function applyChanges(dispatch, getState) {
         promisesFromUpdates(promises, updates.delete, collection, collection.remove);
     });
     await Promise.all(promises);
+}
+
+export function initializeAutoStore(store, collections) {
+    horizon = horizonClient({});
+
+    collections.forEach(c => horizon(c).watch().subscribe(newValues =>
+        store.dispatch(actions.setInline(c, newValues))
+    ));
 }
