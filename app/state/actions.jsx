@@ -1,3 +1,5 @@
+import {applyChanges} from './horizon'
+
 function inline(modifies, apply) {
     return {
         type: 'INLINE_ACTION',
@@ -12,3 +14,31 @@ export function makeFunny(v) {
         dispatch(inline('funny', state => state.funny = v));
     } 
 }
+
+function pushChange(collectionName, changeCollectionName, item) {
+    return async function (dispatch) {
+        dispatch(inline(`updateQueue.${collectionName}`, state => {
+            let updateQueue = state.updateQueue || (state.updateQueue = {});
+            let collection = updateQueue[collectionName] || (updateQueue[collectionName] = {});
+            let changeCollection = collection[changeCollectionName] || (collection[changeCollectionName] = []);
+            changeCollection.push(_.cloneDeep(item));
+        }));
+        await dispatch(applyChanges);
+    }
+}
+
+export function pushNew(collectionName, item) {
+    return pushChange(collectionName, 'add', item);
+}
+
+export function pushUpdate(collectionName, item) {
+    return pushChange(collectionName, 'update', item);
+}
+
+export function pushDelete(collectionName, item) {
+    return pushChange(collectionName, 'delete', item);
+}
+
+export function clearUpdateQueue() {
+    return inline('updateQueue', state => delete state.updateQueue);
+} 
