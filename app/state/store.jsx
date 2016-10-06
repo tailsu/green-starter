@@ -1,4 +1,4 @@
-import {createStore, applyMiddleware} from 'redux'
+import {createStore, applyMiddleware, compose} from 'redux'
 import thunk from 'redux-thunk'
 import {connect} from 'react-redux'
 import _ from 'lodash'
@@ -14,7 +14,8 @@ function inlineAction(state = {}, action) {
     return state;
 }
 
-export const store = createStore(inlineAction, applyMiddleware(thunk))
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+export const store = createStore(inlineAction, composeEnhancers(applyMiddleware(thunk)));
 
 export default function _store(...args) {
     const mapper = args => {
