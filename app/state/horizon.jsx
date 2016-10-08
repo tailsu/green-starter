@@ -29,7 +29,9 @@ export async function applyChanges(dispatch, getState) {
 }
 
 export function initializeAutoStore(store, collections) {
-    horizon = horizonClient({});
+    horizon = horizonClient({
+        host: '//localhost:8181'
+    });
 
     collections.forEach(c => horizon(c).watch().subscribe(newValues =>
         store.dispatch(actions.setInline(c, newValues))
