@@ -102,7 +102,7 @@ module.exports = {
 	},
 	sassResources: [
 		path.join(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins/*.scss'),
-		path.join(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss'),
+		//path.join(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss'),
 		path.join(__dirname, 'app/style/_variables.scss'),
 	]
 };

@@ -6,7 +6,7 @@ import {store} from '$store'
 import App from '$app'
 import {initializeAutoStore} from './state/horizon'
 
-import './styles'
+import './style/styles'
 
 initializeAutoStore(store, ['foos']);
 
